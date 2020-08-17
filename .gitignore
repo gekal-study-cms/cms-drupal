@@ -1,0 +1,10 @@
+/drupal/db/data
+/vendor
+/web
+/.editorconfig
+/.gitattributes
+
+/drupal/web/sites/default/files/css
+/drupal/web/sites/default/files/js
+/drupal/web/sites/default/files/php
+/drupal/web/sites/default/files/styles

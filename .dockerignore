@@ -1,0 +1,9 @@
+/drupal
+/vendor
+/web
+/.dockerignore
+/.gitignore
+/docker-compose.yml
+/Dockerfile
+/README.md
+/.git
