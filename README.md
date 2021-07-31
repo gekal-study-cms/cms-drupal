@@ -36,11 +36,25 @@ docker run --name some-drupal -p 18080:80 -d gekal/drupal:8.9-apache
 
 ## Docker Compose 環境
 
-```bash
-sudo chown 33:33 -R drupal/web
-docker-compose up -d
-# 初期起動の場合、「キャッシュをクリア」を実施したほうがいいと思います。
-```
+1. 起動
+
+    > <http://localhost/>
+
+    ```bash
+    sudo chown 33:33 -R drupal/web
+    docker-compose up -d
+    # 初期起動の場合、「キャッシュをクリア」を実施したほうがいいと思います。
+    ```
+
+2. 停止・クリア
+
+    ```bash
+    docker-compose down
+
+    # Docker のキャッシュをクリアする。
+    docker system prune -f
+    docker volume prune -f
+    ```
 
 ## 環境バックアップ（初回のみ）
 
