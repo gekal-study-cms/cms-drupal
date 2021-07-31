@@ -8,9 +8,11 @@
 
     ```bash
     sudo apt update
-    sudo apt install php7.4-cli
-    sudo apt install composer
-    sudo apt install php-xml php-mbstring php7.4-gd php-curl php-mbstring php-zip
+    sudo apt install php7.4-cli -y
+    sudo apt install php-xml php-mbstring php7.4-gd php-curl php-mbstring php-zip -y
+
+    # install compooser v2.x
+    brew install composer
     ```
 
     > ビルド
