@@ -1,6 +1,6 @@
 <?php
 
-// @codingStandardsIgnoreFile
+// phpcs:ignoreFile
 
 /**
  * @file
@@ -88,16 +88,7 @@
  * ];
  * @endcode
  */
-$databases['default']['default'] = array (
-  'database' => 'drupal',
-  'username' => 'drupal',
-  'password' => 'password',
-  'prefix' => '',
-  'host' => 'db',
-  'port' => '3306',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'driver' => 'mysql',
-);
+$databases = [];
 
 /**
  * Customizing database settings.
@@ -124,14 +115,6 @@ $databases['default']['default'] = array (
  * namespace. This is optional for projects managed with Composer if the
  * driver's namespace is in Composer's autoloader.
  *
- * Transaction support is enabled by default for all drivers that support it,
- * including MySQL. To explicitly disable it, set the 'transactions' key to
- * FALSE.
- * Note that some configurations of MySQL, such as the MyISAM engine, don't
- * support it and will proceed silently even if enabled. If you experience
- * transaction related crashes with such configuration, set the 'transactions'
- * key to FALSE.
- *
  * For each database, you may optionally specify multiple "target" databases.
  * A target database allows Drupal to try to send certain queries to a
  * different database if it can but fall back to the default connection if not.
@@ -155,49 +138,16 @@ $databases['default']['default'] = array (
  * request as needed.  The fourth line creates a new database with a name of
  * "extra".
  *
- * You can optionally set prefixes for some or all database table names
- * by using the 'prefix' setting. If a prefix is specified, the table
- * name will be prepended with its value. Be sure to use valid database
- * characters only, usually alphanumeric and underscore. If no prefixes
- * are desired, leave it as an empty string ''.
+ * You can optionally set a prefix for all database table names by using the
+ * 'prefix' setting. If a prefix is specified, the table name will be prepended
+ * with its value. Be sure to use valid database characters only, usually
+ * alphanumeric and underscore. If no prefix is desired, do not set the 'prefix'
+ * key or set its value to an empty string ''.
  *
- * To have all database names prefixed, set 'prefix' as a string:
+ * For example, to have all database table prefixed with 'main_', set:
  * @code
  *   'prefix' => 'main_',
  * @endcode
- *
- * Per-table prefixes are deprecated as of Drupal 8.2, and will be removed in
- * Drupal 9.0. After that, only a single prefix for all tables will be
- * supported.
- *
- * To provide prefixes for specific tables, set 'prefix' as an array.
- * The array's keys are the table names and the values are the prefixes.
- * The 'default' element is mandatory and holds the prefix for any tables
- * not specified elsewhere in the array. Example:
- * @code
- *   'prefix' => [
- *     'default'   => 'main_',
- *     'users'     => 'shared_',
- *     'sessions'  => 'shared_',
- *     'role'      => 'shared_',
- *     'authmap'   => 'shared_',
- *   ],
- * @endcode
- * You can also use a reference to a schema/database as a prefix. This may be
- * useful if your Drupal installation exists in a schema that is not the default
- * or you want to access several databases from the same code base at the same
- * time.
- * Example:
- * @code
- *   'prefix' => [
- *     'default'   => 'main.',
- *     'users'     => 'shared.',
- *     'sessions'  => 'shared.',
- *     'role'      => 'shared.',
- *     'authmap'   => 'shared.',
- *   ];
- * @endcode
- * NOTE: MySQL and SQLite's definition of a schema is a database.
  *
  * Advanced users can add or override initial commands to execute when
  * connecting to the database server, as well as PDO connection settings. For
@@ -220,9 +170,9 @@ $databases['default']['default'] = array (
  * information on these defaults and the potential issues.
  *
  * More details can be found in the constructor methods for each driver:
- * - \Drupal\Core\Database\Driver\mysql\Connection::__construct()
- * - \Drupal\Core\Database\Driver\pgsql\Connection::__construct()
- * - \Drupal\Core\Database\Driver\sqlite\Connection::__construct()
+ * - \Drupal\mysql\Driver\Database\mysql\Connection::__construct()
+ * - \Drupal\pgsql\Driver\Database\pgsql\Connection::__construct()
+ * - \Drupal\sqlite\Driver\Database\sqlite\Connection::__construct()
  *
  * Sample Database configuration format for PostgreSQL (pgsql):
  * @code
@@ -247,9 +197,9 @@ $databases['default']['default'] = array (
  * Sample Database configuration format for a driver in a contributed module:
  * @code
  *   $databases['default']['default'] = [
- *     'driver' => 'mydriver',
- *     'namespace' => 'Drupal\mymodule\Driver\Database\mydriver',
- *     'autoload' => 'modules/mymodule/src/Driver/Database/mydriver/',
+ *     'driver' => 'my_driver',
+ *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
+ *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
  *     'database' => 'databasename',
  *     'username' => 'sqlusername',
  *     'password' => 'sqlpassword',
@@ -271,7 +221,6 @@ $databases['default']['default'] = array (
  * its location.
  */
 # $settings['config_sync_directory'] = '/directory/outside/webroot';
-$settings['config_sync_directory'] = 'sites/default/files/config/sync';
 
 /**
  * Settings:
@@ -300,7 +249,7 @@ $settings['config_sync_directory'] = 'sites/default/files/config/sync';
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = '2NrLaaRrSgAynZ8I-AYcYQ7lpU_RiVyalZwWS4gVcxE_IHMRkx9Rn2xk1e_fzmrpXTS24-n26w';
+$settings['hash_salt'] = 'QQqHG64uHObk3niTs81hLszvP2zUsi3QnrpxRfzeL3VraWmZU3xo9oRew9fU_vBxoMi-sHt__Q';
 
 /**
  * Deployment identifier.
@@ -324,6 +273,22 @@ $settings['hash_salt'] = '2NrLaaRrSgAynZ8I-AYcYQ7lpU_RiVyalZwWS4gVcxE_IHMRkx9Rn2
  * TRUE back to a FALSE!
  */
 $settings['update_free_access'] = FALSE;
+
+/**
+ * Fallback to HTTP for Update Manager and for fetching security advisories.
+ *
+ * If your site fails to connect to updates.drupal.org over HTTPS (either when
+ * fetching data on available updates, or when fetching the feed of critical
+ * security announcements), you may uncomment this setting and set it to TRUE to
+ * allow an insecure fallback to HTTP. Note that doing so will open your site up
+ * to a potential man-in-the-middle attack. You should instead attempt to
+ * resolve the issues before enabling this option.
+ * @see https://www.drupal.org/docs/system-requirements/php-requirements#openssl
+ * @see https://en.wikipedia.org/wiki/Man-in-the-middle_attack
+ * @see \Drupal\update\UpdateFetcher
+ * @see \Drupal\system\SecurityAdvisories\SecurityAdvisoriesFetcher
+ */
+# $settings['update_fetch_with_http_fallback'] = TRUE;
 
 /**
  * External access proxy settings:
@@ -389,17 +354,20 @@ $settings['update_free_access'] = FALSE;
  * Sets which headers to trust from your reverse proxy.
  *
  * Common values are:
- * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL
+ * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR
+ * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST
+ * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT
+ * - \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
  * - \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  *
  * Note the default value of
  * @code
- * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
+ * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  * @endcode
  * is not secure by default. The value should be set to only the specific
  * headers the reverse proxy uses. For example:
  * @code
- * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL
+ * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
  * @endcode
  * This would trust the following headers:
  * - X_FORWARDED_FOR
@@ -407,11 +375,14 @@ $settings['update_free_access'] = FALSE;
  * - X_FORWARDED_PROTO
  * - X_FORWARDED_PORT
  *
- * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL
+ * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR
+ * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST
+ * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT
+ * @see \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
  * @see \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  * @see \Symfony\Component\HttpFoundation\Request::setTrustedProxies
  */
-# $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_ALL | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED;
+# $settings['reverse_proxy_trusted_headers'] = \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED;
 
 
 /**
@@ -458,34 +429,12 @@ $settings['update_free_access'] = FALSE;
 /**
  * Class Loader.
  *
- * If the APC extension is detected, the Symfony APC class loader is used for
- * performance reasons. Detection can be prevented by setting
- * class_loader_auto_detect to false, as in the example below.
+ * If the APCu extension is detected, the classloader will be optimized to use
+ * it. Set to FALSE to disable this.
+ *
+ * @see https://getcomposer.org/doc/articles/autoloader-optimization.md
  */
 # $settings['class_loader_auto_detect'] = FALSE;
-
-/*
- * If the APC extension is not detected, either because APC is missing or
- * because auto-detection has been disabled, auto-loading falls back to
- * Composer's ClassLoader, which is good for development as it does not break
- * when code is moved in the file system. You can also decorate the base class
- * loader with another cached solution than the Symfony APC class loader, as
- * all production sites should have a cached class loader of some sort enabled.
- *
- * To do so, you may decorate and replace the local $class_loader variable. For
- * example, to use Symfony's APC class loader without automatic detection,
- * uncomment the code below.
- */
-/*
-if ($settings['hash_salt']) {
-  $prefix = 'drupal.' . hash('sha256', 'drupal.' . $settings['hash_salt']);
-  $apc_loader = new \Symfony\Component\ClassLoader\ApcClassLoader($prefix, $class_loader);
-  unset($prefix);
-  $class_loader->unregister();
-  $apc_loader->register();
-  $class_loader = $apc_loader;
-}
-*/
 
 /**
  * Authorized file system operations:
@@ -540,6 +489,29 @@ if ($settings['hash_salt']) {
  * the Drupal installation directory and be accessible over the web.
  */
 # $settings['file_public_path'] = 'sites/default/files';
+
+/**
+ * Additional public file schemes:
+ *
+ * Public schemes are URI schemes that allow download access to all users for
+ * all files within that scheme.
+ *
+ * The "public" scheme is always public, and the "private" scheme is always
+ * private, but other schemes, such as "https", "s3", "example", or others,
+ * can be either public or private depending on the site. By default, they're
+ * private, and access to individual files is controlled via
+ * hook_file_download().
+ *
+ * Typically, if a scheme should be public, a module makes it public by
+ * implementing hook_file_download(), and granting access to all users for all
+ * files. This could be either the same module that provides the stream wrapper
+ * for the scheme, or a different module that decides to make the scheme
+ * public. However, in cases where a site needs to make a scheme public, but
+ * is unable to add code in a module to do so, the scheme may be added to this
+ * variable, the result of which is that system_file_download() grants public
+ * access to all files within that scheme.
+ */
+# $settings['file_additional_public_schemes'] = ['example'];
 
 /**
  * Private file path:
@@ -628,6 +600,21 @@ if ($settings['hash_salt']) {
  */
 # ini_set('pcre.backtrack_limit', 200000);
 # ini_set('pcre.recursion_limit', 200000);
+
+/**
+ * Add Permissions-Policy header to disable Google FLoC.
+ *
+ * By default, Drupal sends the 'Permissions-Policy: interest-cohort=()' header
+ * to disable Google's Federated Learning of Cohorts feature, introduced in
+ * Chrome 89.
+ *
+ * See https://en.wikipedia.org/wiki/Federated_Learning_of_Cohorts for more
+ * information about FLoC.
+ *
+ * If you don't wish to disable FLoC in Chrome, you can set this value
+ * to FALSE.
+ */
+# $settings['block_interest_cohort'] = TRUE;
 
 /**
  * Configuration overrides.
@@ -739,6 +726,8 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * @endcode
  * will allow the site to run off of all variants of example.com and
  * example.org, with all subdomains included.
+ *
+ * @see https://www.drupal.org/docs/installing-drupal/trusted-host-settings
  */
 
 /**
@@ -805,3 +794,15 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
+$databases['default']['default'] = array (
+  'database' => 'drupal',
+  'username' => 'drupal',
+  'password' => 'password',
+  'prefix' => '',
+  'host' => 'db',
+  'port' => '3306',
+  'namespace' => 'Drupal\\mysql\\Driver\\Database\\mysql',
+  'driver' => 'mysql',
+  'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
+);
+$settings['config_sync_directory'] = 'sites/default/files/config_Nj_3kkcAQsQn5k5GvQh4XTMHg0BpHk00b-Z8q6e9D06kFwdz9-CreiSVpTfjTd640hsDohJGIw/sync';

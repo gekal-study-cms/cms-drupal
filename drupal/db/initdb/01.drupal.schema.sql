@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.35, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.39, for Linux (x86_64)
 --
 -- Host: localhost    Database: drupal
 -- ------------------------------------------------------
--- Server version	5.7.35
+-- Server version	5.7.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -444,10 +444,10 @@ CREATE TABLE `comment_entity_statistics` (
   `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The entity_id of the entity for which the statistics are compiled.',
   `entity_type` varchar(32) CHARACTER SET ascii NOT NULL DEFAULT 'node' COMMENT 'The entity_type of the entity to which this comment is a reply.',
   `field_name` varchar(32) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The field_name of the field that was used to add this comment.',
-  `cid` int(11) NOT NULL DEFAULT '0' COMMENT 'The comment.cid of the last comment.',
-  `last_comment_timestamp` int(11) NOT NULL DEFAULT '0' COMMENT 'The Unix timestamp of the last comment that was posted within this node, from comment.changed.',
-  `last_comment_name` varchar(60) DEFAULT NULL COMMENT 'The name of the latest author to post a comment on this node, from comment.name.',
-  `last_comment_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The user ID of the latest author to post a comment on this node, from comment.uid.',
+  `cid` int(11) NOT NULL DEFAULT '0' COMMENT 'The "comment".cid of the last comment.',
+  `last_comment_timestamp` int(11) NOT NULL DEFAULT '0' COMMENT 'The Unix timestamp of the last comment that was posted within this node, from "comment".changed.',
+  `last_comment_name` varchar(60) DEFAULT NULL COMMENT 'The name of the latest author to post a comment on this node, from "comment".name.',
+  `last_comment_uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The user ID of the latest author to post a comment on this node, from "comment".uid.',
   `comment_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The total number of comments on this entity.',
   PRIMARY KEY (`entity_id`,`entity_type`,`field_name`),
   KEY `last_comment_timestamp` (`last_comment_timestamp`),
@@ -565,12 +565,12 @@ DROP TABLE IF EXISTS `history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `history` (
-  `uid` int(11) NOT NULL DEFAULT '0' COMMENT 'The users.uid that read the node nid.',
-  `nid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The node.nid that was read.',
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT 'The "users".uid that read the "node" nid.',
+  `nid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The "node".nid that was read.',
   `timestamp` int(11) NOT NULL DEFAULT '0' COMMENT 'The Unix timestamp at which the read occurred.',
   PRIMARY KEY (`uid`,`nid`),
   KEY `nid` (`nid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A record of which users have read which nodes.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='A record of which "users" have read which "node"s.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -601,7 +601,6 @@ CREATE TABLE `key_value_expire` (
   `value` longblob NOT NULL COMMENT 'The value of the key/value pair.',
   `expire` int(11) NOT NULL DEFAULT '2147483647' COMMENT 'The time since Unix epoch in seconds when this item expires. Defaults to the maximum possible time.',
   PRIMARY KEY (`collection`,`name`),
-  KEY `all` (`name`,`collection`,`expire`),
   KEY `expire` (`expire`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Generic key/value storage table with an expiration.';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -615,7 +614,7 @@ DROP TABLE IF EXISTS `locale_file`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `locale_file` (
   `project` varchar(255) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'A unique short name to identify the project the file belongs to.',
-  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'Language code of this translation. References language.langcode.',
+  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'Language code of this translation. References "language".langcode.',
   `filename` varchar(255) NOT NULL DEFAULT '' COMMENT 'Filename of the imported file.',
   `version` varchar(128) NOT NULL DEFAULT '' COMMENT 'Version tag of the imported file.',
   `uri` varchar(255) NOT NULL DEFAULT '' COMMENT 'URI of the remote file, the resulting local file or the locally imported file.',
@@ -639,9 +638,8 @@ CREATE TABLE `locales_location` (
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Type dependent location information (file name, path, etc).',
   `version` varchar(20) CHARACTER SET ascii NOT NULL DEFAULT 'none' COMMENT 'Version of Drupal where the location was found.',
   PRIMARY KEY (`lid`),
-  KEY `string_id` (`sid`),
   KEY `string_type` (`sid`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1013 DEFAULT CHARSET=utf8mb4 COMMENT='Location information for source strings.';
+) ENGINE=InnoDB AUTO_INCREMENT=1047 DEFAULT CHARSET=utf8mb4 COMMENT='Location information for source strings.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -658,7 +656,7 @@ CREATE TABLE `locales_source` (
   `version` varchar(20) CHARACTER SET ascii NOT NULL DEFAULT 'none' COMMENT 'Version of Drupal where the string was last used (for locales optimization).',
   PRIMARY KEY (`lid`),
   KEY `source_context` (`source`(30),`context`)
-) ENGINE=InnoDB AUTO_INCREMENT=9166 DEFAULT CHARSET=utf8mb4 COMMENT='List of English source strings.';
+) ENGINE=InnoDB AUTO_INCREMENT=8991 DEFAULT CHARSET=utf8mb4 COMMENT='List of English source strings.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -669,9 +667,9 @@ DROP TABLE IF EXISTS `locales_target`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `locales_target` (
-  `lid` int(11) NOT NULL DEFAULT '0' COMMENT 'Source string ID. References locales_source.lid.',
+  `lid` int(11) NOT NULL DEFAULT '0' COMMENT 'Source string ID. References "locales_source".lid.',
   `translation` blob NOT NULL COMMENT 'Translation string value in this language.',
-  `language` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'Language code. References language.langcode.',
+  `language` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'Language code. References "language".langcode.',
   `customized` int(11) NOT NULL DEFAULT '0' COMMENT 'Boolean indicating whether the translation is custom to this site.',
   PRIMARY KEY (`language`,`lid`),
   KEY `lid` (`lid`)
@@ -792,7 +790,7 @@ CREATE TABLE `menu_tree` (
   `mlid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'The menu link ID (mlid) is the integer primary key.',
   `id` varchar(255) CHARACTER SET ascii NOT NULL COMMENT 'Unique machine name: the plugin ID.',
   `parent` varchar(255) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The plugin ID for the parent of this link.',
-  `route_name` varchar(255) CHARACTER SET ascii DEFAULT NULL COMMENT 'The machine name of a defined Symfony Route this menu item represents.',
+  `route_name` varchar(255) CHARACTER SET ascii DEFAULT NULL COMMENT 'The machine name of a defined Symfony Route this menu link represents.',
   `route_param_key` varchar(255) DEFAULT NULL COMMENT 'An encoded string of route parameters for loading by route.',
   `route_parameters` longblob COMMENT 'Serialized array of route parameters of this menu link.',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT 'The external path this link points to (when not using a route).',
@@ -801,7 +799,7 @@ CREATE TABLE `menu_tree` (
   `class` text COMMENT 'The class for this link plugin.',
   `options` longblob COMMENT 'A serialized array of URL options, such as a query string or HTML attributes.',
   `provider` varchar(50) CHARACTER SET ascii NOT NULL DEFAULT 'system' COMMENT 'The name of the module that generated this link.',
-  `enabled` smallint(6) NOT NULL DEFAULT '1' COMMENT 'A flag for whether the link should be rendered in menus. (0 = a disabled menu item that may be shown on admin screens, 1 = a normal, visible link)',
+  `enabled` smallint(6) NOT NULL DEFAULT '1' COMMENT 'A flag for whether the link should be rendered in menus. (0 = a disabled menu link that may be shown on admin screens, 1 = a normal, visible link)',
   `discovered` smallint(6) NOT NULL DEFAULT '0' COMMENT 'A flag for whether the link was discovered, so can be purged on rebuild',
   `expanded` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Flag for whether this link should be rendered as expanded in menus - expanded links always have their child links displayed, instead of only when the link is in the active trail (1 = expanded, 0 = not expanded)',
   `weight` int(11) NOT NULL DEFAULT '0' COMMENT 'Link weight among links in the same menu at the same depth.',
@@ -823,7 +821,7 @@ CREATE TABLE `menu_tree` (
   KEY `menu_parents` (`menu_name`,`p1`,`p2`,`p3`,`p4`,`p5`,`p6`,`p7`,`p8`,`p9`),
   KEY `menu_parent_expand_child` (`menu_name`,`expanded`,`has_children`,`parent`(16)),
   KEY `route_values` (`route_name`(32),`route_param_key`(16))
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COMMENT='Contains the menu tree hierarchy.';
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COMMENT='Contains the menu tree hierarchy.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -947,8 +945,8 @@ DROP TABLE IF EXISTS `node_access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `node_access` (
-  `nid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The node.nid this record affects.',
-  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The language.langcode of this node.',
+  `nid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The "node".nid this record affects.',
+  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The "language".langcode of this node.',
   `fallback` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Boolean indicating whether this record should be used as a fallback if a language condition is not provided.',
   `gid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The grant ID a user must possess in the specified realm to gain this row''s privileges on the node.',
   `realm` varchar(255) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The realm in which the user must possess the grant ID. Modules can define one or more realms by implementing hook_node_grants().',
@@ -1194,7 +1192,7 @@ CREATE TABLE `queue` (
   PRIMARY KEY (`item_id`),
   KEY `name_created` (`name`,`created`),
   KEY `expire` (`expire`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COMMENT='Stores items in queues.';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COMMENT='Stores items in queues.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1225,7 +1223,7 @@ DROP TABLE IF EXISTS `search_dataset`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `search_dataset` (
   `sid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Search item ID, e.g. node ID for nodes.',
-  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The languages.langcode of the item variant.',
+  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The "languages".langcode of the item variant.',
   `type` varchar(64) CHARACTER SET ascii NOT NULL COMMENT 'Type of item, e.g. node.',
   `data` longtext NOT NULL COMMENT 'List of space-separated words from the item.',
   `reindex` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Set to force node reindexing.',
@@ -1241,10 +1239,10 @@ DROP TABLE IF EXISTS `search_index`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `search_index` (
-  `word` varchar(50) NOT NULL DEFAULT '' COMMENT 'The search_total.word that is associated with the search item.',
-  `sid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The search_dataset.sid of the searchable item to which the word belongs.',
-  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The languages.langcode of the item variant.',
-  `type` varchar(64) CHARACTER SET ascii NOT NULL COMMENT 'The search_dataset.type of the searchable item to which the word belongs.',
+  `word` varchar(50) NOT NULL DEFAULT '' COMMENT 'The "search_total".word that is associated with the search item.',
+  `sid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The "search_dataset".sid of the searchable item to which the word belongs.',
+  `langcode` varchar(12) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The "languages".langcode of the item variant.',
+  `type` varchar(64) CHARACTER SET ascii NOT NULL COMMENT 'The "search_dataset".type of the searchable item to which the word belongs.',
   `score` float DEFAULT NULL COMMENT 'The numeric score of the word, higher being more important.',
   PRIMARY KEY (`word`,`sid`,`langcode`,`type`),
   KEY `sid_type` (`sid`,`langcode`,`type`)
@@ -1303,11 +1301,11 @@ DROP TABLE IF EXISTS `sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sessions` (
-  `uid` int(10) unsigned NOT NULL COMMENT 'The users.uid corresponding to a session, or 0 for anonymous user.',
+  `uid` int(10) unsigned NOT NULL COMMENT 'The "users".uid corresponding to a session, or 0 for anonymous user.',
   `sid` varchar(128) CHARACTER SET ascii NOT NULL COMMENT 'A session ID (hashed). The value is generated by Drupal''s session handlers.',
   `hostname` varchar(128) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The IP address that last used this session ID (sid).',
   `timestamp` int(11) NOT NULL DEFAULT '0' COMMENT 'The Unix timestamp when this session last requested a page. Old records are purged by PHP automatically.',
-  `session` longblob COMMENT 'The serialized contents of $_SESSION, an array of name/value pairs that persists across page requests by this session ID. Drupal loads $_SESSION from here at the start of each request and saves it at the end.',
+  `session` longblob COMMENT 'The serialized contents of the user''s session, an array of name/value pairs that persists across page requests by this session ID. Drupal loads the user''s session from here at the start of each request and saves it at the end.',
   PRIMARY KEY (`sid`),
   KEY `timestamp` (`timestamp`),
   KEY `uid` (`uid`)
@@ -1364,8 +1362,8 @@ DROP TABLE IF EXISTS `shortcut_set_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shortcut_set_users` (
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The users.uid for this set.',
-  `set_name` varchar(32) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The shortcut_set.set_name that will be displayed for this user.',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The "users".uid for this set.',
+  `set_name` varchar(32) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The "shortcut_set".set_name that will be displayed for this user.',
   PRIMARY KEY (`uid`),
   KEY `set_name` (`set_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Maps users to shortcut sets.';
@@ -1379,7 +1377,7 @@ DROP TABLE IF EXISTS `taxonomy_index`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `taxonomy_index` (
-  `nid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The node.nid this record tracks.',
+  `nid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The "node".nid this record tracks.',
   `tid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The term ID.',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT 'Boolean indicating whether the node is published (visible to non-administrators).',
   `sticky` tinyint(4) DEFAULT '0' COMMENT 'Boolean indicating whether the node is sticky.',
@@ -1584,12 +1582,12 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `uid` int(10) unsigned NOT NULL,
+  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uuid` varchar(128) CHARACTER SET ascii NOT NULL,
   `langcode` varchar(12) CHARACTER SET ascii NOT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `user_field__uuid__value` (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='The base table for user entities.';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='The base table for user entities.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1600,7 +1598,7 @@ DROP TABLE IF EXISTS `users_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users_data` (
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The users.uid this record affects.',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The "users".uid this record affects.',
   `module` varchar(50) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The name of the module declaring the variable.',
   `name` varchar(128) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'The identifier of the data.',
   `value` longblob COMMENT 'The value.',
@@ -1652,7 +1650,7 @@ DROP TABLE IF EXISTS `watchdog`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `watchdog` (
   `wid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key: Unique watchdog event ID.',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The users.uid of the user who triggered the event.',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The "users".uid of the user who triggered the event.',
   `type` varchar(64) CHARACTER SET ascii NOT NULL DEFAULT '' COMMENT 'Type of log message, for example "user" or "page not found."',
   `message` longtext NOT NULL COMMENT 'Text of log message to be passed into the t() function.',
   `variables` longblob NOT NULL COMMENT 'Serialized array of variables that match the message string and that is passed into the t() function.',
@@ -1682,4 +1680,4 @@ CREATE TABLE `watchdog` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-31  6:21:20
+-- Dump completed on 2022-08-18  3:57:17
