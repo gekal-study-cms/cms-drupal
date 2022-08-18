@@ -1,6 +1,6 @@
 {
-    "name": "gekal/drupal-container",
-    "description": "Project template for Drupal 8 projects with a relocated document root",
+    "name": "gekal-study-cms/cms-drupal",
+    "description": "Project template for Drupal 9 projects with a relocated document root",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "homepage": "https://www.drupal.org/project/drupal",
@@ -15,11 +15,11 @@
         }
     ],
     "require": {
-        "composer/installers": "v1.11.0",
-        "drupal/bootstrap": "3.23.0",
-        "drupal/core-composer-scaffold": "8.9.17",
-        "drupal/core-project-message": "8.9.17",
-        "drupal/core-recommended": "8.9.17"
+        "composer/installers": "v2.1.1",
+        "drupal/bootstrap": "3.25.0",
+        "drupal/core-composer-scaffold": "9.4.5",
+        "drupal/core-project-message": "9.4.5",
+        "drupal/core-recommended": "9.4.5"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -27,7 +27,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true
+        }
     },
     "extra": {
         "drupal-scaffold": {
@@ -56,6 +61,9 @@
             ],
             "web/modules/custom/{$name}": [
                 "type:drupal-custom-module"
+            ],
+            "web/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
             ],
             "web/themes/custom/{$name}": [
                 "type:drupal-custom-theme"

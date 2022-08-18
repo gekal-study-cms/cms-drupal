@@ -1,5 +1,5 @@
 # ビルドコンテナー
-FROM library/composer:1.9 AS builder
+FROM library/composer:2.4 AS builder
 
 RUN apk add \
 		freetype \
@@ -24,7 +24,7 @@ COPY . .
 RUN composer install --no-dev
 
 # Drupalランコンテナー
-# https://github.com/docker-library/drupal/blob/master/8.9/apache/Dockerfile
+# https://github.com/docker-library/drupal/blob/master/9.4/php7.4/apache-bullseye/Dockerfile
 FROM library/php:7.4-apache-buster
 
 ENV APACHE_DOCUMENT_ROOT /var/www/html/web
@@ -32,6 +32,7 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/web
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf; \
 	sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf;
 
+# install the PHP extensions we need
 RUN set -eux; \
 	\
 	if command -v a2enmod; then \
@@ -46,12 +47,14 @@ RUN set -eux; \
 		libjpeg-dev \
 		libpng-dev \
 		libpq-dev \
+		libwebp-dev \
 		libzip-dev \
 	; \
 	\
 	docker-php-ext-configure gd \
 		--with-freetype \
 		--with-jpeg=/usr \
+		--with-webp \
 	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \
@@ -62,6 +65,7 @@ RUN set -eux; \
 		zip \
 	; \
 	\
+# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
 	apt-mark manual $savedAptMark; \
 	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
