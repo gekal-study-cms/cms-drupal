@@ -16,7 +16,7 @@ services:
     volumes:
       - ./drupal/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./drupal/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
-      # - ./drupal/web/sites/default:/var/www/html/web/sites/default
+      - ./drupal/web/sites/default:/var/www/html/web/sites/default
 
   db:
     image: mysql:5
