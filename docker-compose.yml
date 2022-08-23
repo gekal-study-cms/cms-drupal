@@ -34,3 +34,10 @@ services:
       - ./drupal/db/initdb:/docker-entrypoint-initdb.d/:ro
       # 必要によって、DBのdataを外部に出す
       # - ./drupal/db/data:/var/lib/mysql
+
+  adminer:
+    image: adminer:4
+    container_name: drupal-adminer
+    restart: always
+    ports:
+      - 880:8080

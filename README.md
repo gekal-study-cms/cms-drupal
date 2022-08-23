@@ -84,6 +84,12 @@ docker run --name some-drupal -p 18080:80 -d gekal/drupal:8.9-apache
     rm ./drupal/*.zip
     ```
 
+## DBへの接続
+
+<http://localhost:880/?server=db&username=drupal&db=drupal>
+
+> パスワード: `password`
+
 ## テストアカウント
 
 <http://localhost/>
