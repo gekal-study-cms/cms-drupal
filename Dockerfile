@@ -1,5 +1,5 @@
 # ビルドコンテナー
-FROM library/composer:2.4 AS builder
+FROM composer:2 AS builder
 
 RUN apk add \
 		freetype \
@@ -17,20 +17,15 @@ RUN apk add \
 	\
 	&& rm /var/cache/apk/*
 
-WORKDIR /var/www/html
+WORKDIR /opt/drupal
 
 COPY . .
 
 RUN composer install --no-dev
 
 # Drupalランコンテナー
-# https://github.com/docker-library/drupal/blob/master/9.4/php7.4/apache-bullseye/Dockerfile
-FROM library/php:7.4-apache-buster
-
-ENV APACHE_DOCUMENT_ROOT /var/www/html/web
-
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf; \
-	sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf;
+# https://github.com/docker-library/drupal/blob/master/10.0/php8.2/apache-bullseye/Dockerfile
+FROM php:8.2-apache-bullseye
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -79,10 +74,8 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
-# xdebug install and enable
-# RUN pecl install xdebug-2.9.8 && docker-php-ext-enable xdebug
-RUN pecl install xdebug-2.9.8 && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
 		echo 'opcache.interned_strings_buffer=8'; \
@@ -91,4 +84,12 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-COPY --chown=www-data:www-data --from=builder /var/www/html /var/www/html
+WORKDIR /opt/drupal
+
+COPY --chown=www-data:www-data --from=builder /opt/drupal /opt/drupal
+
+RUN set -eux; \
+	rmdir /var/www/html; \
+	ln -sf /opt/drupal/web /var/www/html;
+
+ENV PATH=${PATH}:/opt/drupal/vendor/bin

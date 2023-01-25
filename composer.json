@@ -15,11 +15,11 @@
         }
     ],
     "require": {
-        "composer/installers": "v2.1.1",
+        "composer/installers": "v2.2.0",
         "drupal/bootstrap": "3.25.0",
-        "drupal/core-composer-scaffold": "9.4.5",
-        "drupal/core-project-message": "9.4.5",
-        "drupal/core-recommended": "9.4.5"
+        "drupal/core-composer-scaffold": "10.0.2",
+        "drupal/core-project-message": "10.0.2",
+        "drupal/core-recommended": "10.0.2"
     },
     "conflict": {
         "drupal/drupal": "*"
