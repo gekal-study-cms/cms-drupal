@@ -3,7 +3,7 @@ version: "3"
 services:
   # Access via "http://localhost:80"
   drupal:
-    image: gekal/drupal:9.4-apache
+    image: gekal/drupal:9.5-apache
     container_name: drupal-web
     build:
       context: .

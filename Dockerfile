@@ -1,5 +1,5 @@
 # ビルドコンテナー
-FROM library/composer:2.4 AS builder
+FROM composer:2.0 AS builder
 
 RUN apk add \
 		freetype \
@@ -24,8 +24,8 @@ COPY . .
 RUN composer install --no-dev
 
 # Drupalランコンテナー
-# https://github.com/docker-library/drupal/blob/master/9.4/php7.4/apache-bullseye/Dockerfile
-FROM library/php:7.4-apache-buster
+# https://github.com/docker-library/drupal/blob/717c4e342cf382d057690de0f833abdc0ff99f1a/9.5/php8.1/apache-bullseye/Dockerfile
+FROM php:8.1-apache-bullseye
 
 ENV APACHE_DOCUMENT_ROOT /var/www/html/web
 
@@ -79,10 +79,8 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
-# xdebug install and enable
-# RUN pecl install xdebug-2.9.8 && docker-php-ext-enable xdebug
-RUN pecl install xdebug-2.9.8 && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
 		echo 'opcache.interned_strings_buffer=8'; \

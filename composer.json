@@ -17,9 +17,9 @@
     "require": {
         "composer/installers": "v2.1.1",
         "drupal/bootstrap": "3.25.0",
-        "drupal/core-composer-scaffold": "9.4.5",
-        "drupal/core-project-message": "9.4.5",
-        "drupal/core-recommended": "9.4.5"
+        "drupal/core-composer-scaffold": "9.5.2",
+        "drupal/core-project-message": "9.5.2",
+        "drupal/core-recommended": "9.5.2"
     },
     "conflict": {
         "drupal/drupal": "*"
