@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.39, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.41, for Linux (x86_64)
 --
 -- Host: localhost    Database: drupal
 -- ------------------------------------------------------
--- Server version	5.7.39
+-- Server version	5.7.41
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -639,7 +639,7 @@ CREATE TABLE `locales_location` (
   `version` varchar(20) CHARACTER SET ascii NOT NULL DEFAULT 'none' COMMENT 'Version of Drupal where the location was found.',
   PRIMARY KEY (`lid`),
   KEY `string_type` (`sid`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1047 DEFAULT CHARSET=utf8mb4 COMMENT='Location information for source strings.';
+) ENGINE=InnoDB AUTO_INCREMENT=1086 DEFAULT CHARSET=utf8mb4 COMMENT='Location information for source strings.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -656,7 +656,7 @@ CREATE TABLE `locales_source` (
   `version` varchar(20) CHARACTER SET ascii NOT NULL DEFAULT 'none' COMMENT 'Version of Drupal where the string was last used (for locales optimization).',
   PRIMARY KEY (`lid`),
   KEY `source_context` (`source`(30),`context`)
-) ENGINE=InnoDB AUTO_INCREMENT=8991 DEFAULT CHARSET=utf8mb4 COMMENT='List of English source strings.';
+) ENGINE=InnoDB AUTO_INCREMENT=8995 DEFAULT CHARSET=utf8mb4 COMMENT='List of English source strings.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1192,7 +1192,7 @@ CREATE TABLE `queue` (
   PRIMARY KEY (`item_id`),
   KEY `name_created` (`name`,`created`),
   KEY `expire` (`expire`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COMMENT='Stores items in queues.';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COMMENT='Stores items in queues.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1664,7 +1664,7 @@ CREATE TABLE `watchdog` (
   KEY `type` (`type`),
   KEY `uid` (`uid`),
   KEY `severity` (`severity`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COMMENT='Table that contains logs of all system events.';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COMMENT='Table that contains logs of all system events.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1680,4 +1680,4 @@ CREATE TABLE `watchdog` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-18  3:57:17
+-- Dump completed on 2023-01-25 13:29:30
