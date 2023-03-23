@@ -7,9 +7,10 @@
     > 環境準備
 
     ```bash
+    sudo add-apt-repository ppa:ondrej/php
     sudo apt update
-    sudo apt install php7.4-cli -y
-    sudo apt install php-xml php-mbstring php7.4-gd php-curl php-mbstring php-zip -y
+    sudo apt install php8.2,php8.2-cli,php-8.2{bz2,curl,mbstring,intl} -y
+    sudo apt install php8.2-{gd,dom,curl,bz2,mbstring,intl} -y
 
     # install compooser v2.x
     brew install composer
@@ -24,13 +25,13 @@
 2. docker ビルド
 
     ```bash
-    docker build -t gekal/drupal:8.9-apache .
+    docker build -t gekal/drupal:10.0-apache .
     ```
 
 ## 動作確認
 
 ```bash
-docker run --name some-drupal -p 18080:80 -d gekal/drupal:8.9-apache
+docker run --name some-drupal -p 18080:80 -d gekal/drupal:10.0-apache
 # http://localhost:18080/
 ```
 
