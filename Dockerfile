@@ -93,3 +93,7 @@ RUN set -eux; \
 	ln -sf /opt/drupal/web /var/www/html;
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
+
+# xdebug
+RUN pecl install xdebug-3.2.1 \
+	&& docker-php-ext-enable xdebug

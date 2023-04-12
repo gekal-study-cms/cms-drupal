@@ -98,3 +98,12 @@ docker run --name some-drupal -p 18080:80 -d gekal/drupal:10.0-apache
 | ユーザー | パスワード |
 | -------- | ---------- |
 | gekal    | 123456     |
+
+## デバッグ実施
+
+下記手順でContainerのローカルにデバッグを実施できます。
+
+1. `Visual Studio Code`と`Dev Containers`プラグインをインストールする。
+2. `drupal-web`にアタッチする。 -> Dev Containers: Attach to Running Container...
+3. リモート側には、`PHP Debug`プラグインをインストールする。
+4. `F5`でデバッグを開始する。
