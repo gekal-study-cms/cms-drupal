@@ -7,9 +7,10 @@
     > 環境準備
 
     ```bash
+    sudo add-apt-repository ppa:ondrej/php
     sudo apt update
-    sudo apt install php7.4-cli -y
-    sudo apt install php-xml php-mbstring php7.4-gd php-curl php-mbstring php-zip -y
+    sudo apt install php8.1,php8.1-cli,php-8.1{bz2,curl,mbstring,intl} -y
+    sudo apt install php8.1-{gd,dom,curl,bz2,mbstring,intl} -y
 
     # install compooser v2.x
     brew install composer
@@ -97,3 +98,15 @@ docker run --name some-drupal -p 18080:80 -d gekal/drupal:8.9-apache
 | ユーザー | パスワード |
 | -------- | ---------- |
 | gekal    | 123456     |
+
+## デバッグ実施
+
+下記手順でContainerのローカルにデバッグを実施できます。
+
+1. `Visual Studio Code`と`Dev Containers`プラグインをインストールする。
+2. `drupal-web`にアタッチする。 -> Dev Containers: Attach to Running Container...
+
+    Open Folder: /opt/drupal
+
+3. リモート側には、`PHP Debug`プラグインをインストールする。
+4. `F5`でデバッグを開始する。

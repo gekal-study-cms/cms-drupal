@@ -17,7 +17,7 @@ RUN apk add \
 	\
 	&& rm /var/cache/apk/*
 
-WORKDIR /var/www/html
+WORKDIR /opt/drupal
 
 COPY . .
 
@@ -26,11 +26,6 @@ RUN composer install --no-dev
 # Drupalランコンテナー
 # https://github.com/docker-library/drupal/blob/717c4e342cf382d057690de0f833abdc0ff99f1a/9.5/php8.1/apache-bullseye/Dockerfile
 FROM php:8.1-apache-bullseye
-
-ENV APACHE_DOCUMENT_ROOT /var/www/html/web
-
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf; \
-	sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf;
 
 # install the PHP extensions we need
 RUN set -eux; \
@@ -89,4 +84,16 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-COPY --chown=www-data:www-data --from=builder /var/www/html /var/www/html
+WORKDIR /opt/drupal
+
+COPY --chown=www-data:www-data --from=builder /opt/drupal /opt/drupal
+
+RUN set -eux; \
+	rmdir /var/www/html; \
+	ln -sf /opt/drupal/web /var/www/html;
+
+ENV PATH=${PATH}:/opt/drupal/vendor/bin
+
+# xdebug
+RUN pecl install xdebug-3.2.1 \
+	&& docker-php-ext-enable xdebug
