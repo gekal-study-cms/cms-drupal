@@ -14,7 +14,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./.vscode/launch.json:/var/www/html/.vscode/launch.json:ro
+      - ./.vscode/launch.json:/opt/drupal/.vscode/launch.json:ro
       - ./drupal/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - ./drupal/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
       - ./drupal/web/sites/default:/var/www/html/sites/default
