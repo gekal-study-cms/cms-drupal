@@ -18,6 +18,7 @@ services:
       - ./drupal/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
       - ./drupal/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
       - ./drupal/web/sites/default:/var/www/html/sites/default
+      - ./drupal/modules:/opt/drupal/web/modules/custom:rw
 
   db:
     image: mysql:5
