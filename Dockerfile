@@ -84,6 +84,8 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
+
 WORKDIR /opt/drupal
 
 COPY --chown=www-data:www-data --from=builder /opt/drupal /opt/drupal
